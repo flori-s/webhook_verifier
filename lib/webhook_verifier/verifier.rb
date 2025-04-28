@@ -5,15 +5,19 @@ require 'base64'
 
 module WebhookVerifier
   class Verifier
-    def self.verify!(request, secret:, tolerance: 5.minutes, header_signature_key: 'X-Signature', header_timestamp_key: 'X-Timestamp')
-      signature = request.headers[header_signature_key]
-      timestamp = request.headers[header_timestamp_key]
+    def self.verify!(request)
+      # Haal de secret op uit de configuratie
+      secret = WebhookVerifier.configuration.secret
+      raise WebhookVerifier::VerificationError, 'Secret not configured' unless secret
+
+      signature = request.headers[WebhookVerifier.configuration.header_signature_key]
+      timestamp = request.headers[WebhookVerifier.configuration.header_timestamp_key]
 
       raise WebhookVerifier::VerificationError, 'Missing signature' unless signature
       raise WebhookVerifier::VerificationError, 'Missing timestamp' unless timestamp
 
-      # Timestamp validation (e.g. must not be older than tolerance)
-      raise WebhookVerifier::VerificationError, 'Timestamp is too old' if Time.now - Time.at(timestamp.to_i) > tolerance
+      # Timestamp validation
+      raise WebhookVerifier::VerificationError, 'Timestamp is too old' if Time.now - Time.at(timestamp.to_i) > WebhookVerifier.configuration.tolerance
 
       # HMAC signature validation
       expected_signature = generate_hmac(secret, request.body.read, timestamp)

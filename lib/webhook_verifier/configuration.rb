@@ -10,5 +10,10 @@ module WebhookVerifier
       @header_timestamp_key = 'X-Timestamp'
       @tolerance = 5.minutes
     end
+
+    # Forceer de gebruiker om de secret in te stellen via een configuratie
+    def validate!
+      raise 'Secret is required' unless @secret
+    end
   end
 end
