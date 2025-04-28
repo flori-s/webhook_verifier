@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7f9db6a-4b99-453e-ac28-879d91f1ca43" name="Changes" comment="add validation for secret configuration in webhook verifier">
-      <change beforePath="$PROJECT_DIR$/lib/webhook_verifier.rb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/webhook_verifier.rb" afterDir="false" />
+    <list default="true" id="b7f9db6a-4b99-453e-ac28-879d91f1ca43" name="Changes" comment="add configuration management to webhook_verifier">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +84,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745834586646</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add configuration management to webhook_verifier">
+      <option name="closed" value="true" />
+      <created>1745844227250</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745844227251</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -93,6 +101,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add webhook verifier module with configuration and verification logic" />
     <MESSAGE value="add validation for secret configuration in webhook verifier" />
-    <option name="LAST_COMMIT_MESSAGE" value="add validation for secret configuration in webhook verifier" />
+    <MESSAGE value="add configuration management to webhook_verifier" />
+    <option name="LAST_COMMIT_MESSAGE" value="add configuration management to webhook_verifier" />
   </component>
 </project>
