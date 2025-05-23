@@ -1,32 +1,94 @@
-# WebhookVerifier
+# Webhook Verifier Gem
 
-TODO: Delete this and the text below, and describe your gem
+A Ruby gem to securely verify incoming webhooks by validating HMAC signatures, timestamps, and preventing replay attacks.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/webhook_verifier`. To experiment with that code, run `bin/console` for an interactive prompt.
+## Features
+- Verify webhook payload signatures with HMAC
+- Validate webhook timestamps to prevent replay attacks
+- Configurable signature secret and header names
+- Easy integration with Rails or any Ruby application
+- Support for retry handling and logging
 
 ## Installation
 
-Install the gem and add to the application's Gemfile by executing:
+Add this line to your application’s Gemfile:
 
-```bash
-bundle add webhook_verifier
+```ruby
+gem 'webhook_verifier'
 ```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+And then execute:
+
+```bash
+bundle install
+```
+
+Or install it yourself:
 
 ```bash
 gem install webhook_verifier
 ```
 
+## Ruby version
+
+***This gem is tested with Ruby 3.0.4.***
+
+## Configuration
+
+Configure the verifier with your webhook secret and options:
+
+```ruby
+verifier = WebhookVerifier.new(
+  secret: ENV['WEBHOOK_SECRET'],
+  signature_header: 'X-Webhook-Signature',
+  timestamp_header: 'X-Webhook-Timestamp',
+  allowed_drift_seconds: 300 # 5 minutes
+)
+```
+
 ## Usage
 
-TODO: Write usage instructions here
+In your webhook controller:
 
-## Development
+```ruby
+class WebhooksController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+  def receive
+    payload = request.raw_post
+    headers = request.headers
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+    verifier = WebhookVerifier.new(secret: ENV['WEBHOOK_SECRET'])
+
+    unless verifier.valid?(payload, headers)
+      head :unauthorized and return
+    end
+
+    # Process webhook data...
+
+    head :ok
+  end
+end
+```
+
+## Database creation / Initialization
+
+No database setup needed for this gem.
+```
+# TODO: Log webhooks in database
+```
+
+## Running tests
+
+Run the test suite with:
+
+```bash
+bundle exec rspec
+```
+
+## Deployment instructions
+
+***Just make sure to set the WEBHOOK_SECRET environment variable on your production servers.***
 
 ## Contributing
 
